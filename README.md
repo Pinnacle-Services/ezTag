@@ -37,4 +37,4 @@ To run ezTag,
 1) rails s
 2) Enter localhost:3000 on a web browser (we suggest Chrome)
 
-Cloned repo
+Cloned repo2
