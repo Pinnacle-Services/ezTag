@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# fix yanked mimemagic (0.3.4)
+# https://stackoverflow.com/questions/66919504/your-bundle-is-locked-to-mimemagic-0-3-5-but-that-version-could-not-be-found
+gem 'mimemagic', '~> 0.3.10'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.4', '>= 5.2.4'

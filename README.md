@@ -37,4 +37,15 @@ To run ezTag,
 1) rails s
 2) Enter localhost:3000 on a web browser (we suggest Chrome)
 
-Cloned repo2
+## Configuration steps
+- config/secrets.yml 
+    - secret (rake secret)
+    - mailgun API for sending email
+
+- config/storage.yml , configuration of MySql Database
+
+- config/initializers/recaptcha.rb
+    change recapcha keys for the domain server
+
+- app/views/layouts/application.html.erb
+    change google Analytics token on line 83, 88
