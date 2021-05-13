@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  default from: 'no-reply@bioqrator.org'
+  default from: Rails.application.secrets.from_email
  
   def session_email(email, user, url)
     @user = user

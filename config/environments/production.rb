@@ -72,7 +72,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
         api_key: Rails.application.secrets.mailgun,
-        domain: 'mg.bioqrator.org'
+        domain: Rails.application.secrets.mailgun_domain
   }
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

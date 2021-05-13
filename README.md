@@ -29,18 +29,27 @@ After the basic setup,
 
 1) git clone https://github.com/ncbi-nlp/ezTag.git
 2) Configure config/database.yml and config/secrets.yml (run "rake secret" to get a key). You can find sample files in the config directory.
-3) bundle install
-4) rake db:create
-5) rake db:migrate
+3) `bundle install`
+4) `rake db:create`
+5) `rake db:migrate`
+
+Make Production Database:
+RAILS_ENV=production bundle exec rake db:create db:schema:load
 
 To run ezTag,
-1) rails s
-2) Enter localhost:3000 on a web browser (we suggest Chrome)
+1)` rails server --binding=your_server_ip -p 80  -e production`
+-p : port
+-e : environment
+--binding : IP of production server
 
-## Configuration steps
+
+
+2) Enter your_server_ip:port on a web browser (we suggest Chrome)
+
+## Configuration 
 - config/secrets.yml 
-    - secret (rake secret)
-    - mailgun API for sending email
+    - secret (run rake secret)
+    - API key for sending email with https://www.mailgun.com/
 
 - config/storage.yml , configuration of MySql Database
 
@@ -48,4 +57,15 @@ To run ezTag,
     change recapcha keys for the domain server
 
 - app/views/layouts/application.html.erb
-    change google Analytics token on line 83, 88
+    change google Analytics token on lines 83, 88
+
+
+### Production Start
+
+`rails server --daemon`
+
+to kill the server
+`kill cat tmp/pids/server.pid`
+
+to tail development logs for debugging
+`tail -f log/development.log`

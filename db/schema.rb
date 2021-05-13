@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2019_01_22_183233) do
 
-  create_table "api_keys", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "api_keys", id: :integer, options: "CREATE TABLE \"api_keys\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"key\" varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"user_id\" int DEFAULT NULL,\n  \"last_access_at\" datetime DEFAULT NULL,\n  \"last_access_ip\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"access_count\" int NOT NULL DEFAULT '0',\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  PRIMARY KEY (\"id\"),\n  UNIQUE KEY \"index_api_keys_on_key\" (\"key\"),\n  KEY \"index_api_keys_on_user_id\" (\"user_id\"),\n  CONSTRAINT \"fk_rails_32c28d0dc2\" FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\")\n)", force: :cascade do |t|
     t.string "key", limit: 50
     t.integer "user_id"
     t.datetime "last_access_at"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_183233) do
     t.index ["user_id"], name: "index_api_keys_on_user_id"
   end
 
-  create_table "collections", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "collections", id: :integer, options: "CREATE TABLE \"collections\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"user_id\" int DEFAULT NULL,\n  \"name\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"documents_count\" int NOT NULL DEFAULT '0',\n  \"note\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"source\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"cdate\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"key\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"xml_url\" varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  \"annotations_count\" int DEFAULT '0',\n  \"order_no\" int DEFAULT NULL,\n  PRIMARY KEY (\"id\"),\n  KEY \"index_collections_on_user_id\" (\"user_id\"),\n  KEY \"index_collections_on_key\" (\"key\"),\n  KEY \"index_collections_on_user_id_and_order_no\" (\"user_id\",\"order_no\"),\n  CONSTRAINT \"fk_rails_9b33697360\" FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\")\n)", force: :cascade do |t|
     t.integer "user_id"
     t.string "name"
     t.integer "documents_count", default: 0, null: false
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_183233) do
     t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
-  create_table "documents", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "documents", id: :integer, options: "CREATE TABLE \"documents\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"collection_id\" int DEFAULT NULL,\n  \"did\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"user_updated_at\" datetime DEFAULT NULL,\n  \"tool_updated_at\" datetime DEFAULT NULL,\n  \"annotations_count\" int NOT NULL DEFAULT '0',\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  \"xml\" longtext COLLATE utf8mb4_unicode_ci,\n  \"title\" text COLLATE utf8mb4_unicode_ci,\n  \"key\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"did_no\" int DEFAULT NULL,\n  \"batch_id\" int DEFAULT '0',\n  \"batch_no\" int DEFAULT '0',\n  \"done\" tinyint(1) DEFAULT '0',\n  \"curatable\" tinyint(1) DEFAULT '1',\n  \"order_no\" int DEFAULT NULL,\n  PRIMARY KEY (\"id\"),\n  KEY \"index_documents_on_collection_id\" (\"collection_id\"),\n  KEY \"index_documents_on_did\" (\"did\"),\n  KEY \"index_documents_on_collection_id_and_order_no\" (\"collection_id\",\"order_no\"),\n  CONSTRAINT \"fk_rails_d1954ada41\" FOREIGN KEY (\"collection_id\") REFERENCES \"collections\" (\"id\")\n)", force: :cascade do |t|
     t.integer "collection_id"
     t.string "did"
     t.datetime "user_updated_at"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_183233) do
     t.index ["did"], name: "index_documents_on_did"
   end
 
-  create_table "entity_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "entity_types", id: :integer, options: "CREATE TABLE \"entity_types\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"collection_id\" int DEFAULT NULL,\n  \"name\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"color\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  PRIMARY KEY (\"id\"),\n  KEY \"index_entity_types_on_collection_id\" (\"collection_id\"),\n  CONSTRAINT \"fk_rails_fbdba14b5f\" FOREIGN KEY (\"collection_id\") REFERENCES \"collections\" (\"id\")\n)", force: :cascade do |t|
     t.integer "collection_id"
     t.string "name"
     t.string "color"
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_183233) do
     t.index ["collection_id"], name: "index_entity_types_on_collection_id"
   end
 
-  create_table "lexicon_groups", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "lexicon_groups", id: :integer, options: "CREATE TABLE \"lexicon_groups\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"name\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"user_id\" int DEFAULT NULL,\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  \"lexicons_count\" int DEFAULT '0',\n  \"key\" varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  PRIMARY KEY (\"id\"),\n  KEY \"index_lexicon_groups_on_user_id\" (\"user_id\"),\n  KEY \"index_lexicon_groups_on_key\" (\"key\"),\n  CONSTRAINT \"fk_rails_6a10cb9c14\" FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\")\n)", force: :cascade do |t|
     t.string "name"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_183233) do
     t.index ["user_id"], name: "index_lexicon_groups_on_user_id"
   end
 
-  create_table "lexicons", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "lexicons", id: :integer, options: "CREATE TABLE \"lexicons\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"ltype\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"lexicon_id\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"name\" text COLLATE utf8mb4_unicode_ci,\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  \"lexicon_group_id\" int DEFAULT NULL,\n  PRIMARY KEY (\"id\"),\n  KEY \"index_lexicons_on_lexicon_id\" (\"lexicon_id\"),\n  KEY \"index_lexicons_on_lexicon_group_id\" (\"lexicon_group_id\"),\n  CONSTRAINT \"fk_rails_c22eba49bc\" FOREIGN KEY (\"lexicon_group_id\") REFERENCES \"lexicon_groups\" (\"id\")\n)", force: :cascade do |t|
     t.string "ltype"
     t.string "lexicon_id"
     t.text "name"
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_183233) do
     t.index ["lexicon_id"], name: "index_lexicons_on_lexicon_id"
   end
 
-  create_table "models", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "models", id: :integer, options: "CREATE TABLE \"models\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"url\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"user_id\" int DEFAULT NULL,\n  \"name\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  PRIMARY KEY (\"id\"),\n  KEY \"index_models_on_user_id\" (\"user_id\"),\n  CONSTRAINT \"fk_rails_94ca00d51b\" FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\")\n)", force: :cascade do |t|
     t.string "url"
     t.integer "user_id"
     t.string "name"
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2019_01_22_183233) do
     t.index ["user_id"], name: "index_models_on_user_id"
   end
 
-  create_table "tasks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "tasks", id: :integer, options: "CREATE TABLE \"tasks\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"user_id\" int DEFAULT NULL,\n  \"collection_id\" int DEFAULT NULL,\n  \"tagger\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"task_type\" int DEFAULT NULL,\n  \"pre_trained_model\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"status\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  \"tool_begin_at\" datetime DEFAULT NULL,\n  \"tool_end_at\" datetime DEFAULT NULL,\n  \"canceled_at\" datetime DEFAULT NULL,\n  \"model_id\" int DEFAULT NULL,\n  \"lexicon_group_id\" int DEFAULT NULL,\n  \"has_model\" tinyint(1) DEFAULT '0',\n  \"has_lexicon_group\" tinyint(1) DEFAULT '0',\n  PRIMARY KEY (\"id\"),\n  KEY \"index_tasks_on_user_id\" (\"user_id\"),\n  KEY \"index_tasks_on_collection_id\" (\"collection_id\"),\n  KEY \"index_tasks_on_model_id\" (\"model_id\"),\n  KEY \"index_tasks_on_lexicon_group_id\" (\"lexicon_group_id\"),\n  CONSTRAINT \"fk_rails_4d2a9e4d7e\" FOREIGN KEY (\"user_id\") REFERENCES \"users\" (\"id\"),\n  CONSTRAINT \"fk_rails_74e604f756\" FOREIGN KEY (\"model_id\") REFERENCES \"models\" (\"id\"),\n  CONSTRAINT \"fk_rails_ba46bfe072\" FOREIGN KEY (\"collection_id\") REFERENCES \"collections\" (\"id\"),\n  CONSTRAINT \"fk_rails_fb82bc7755\" FOREIGN KEY (\"lexicon_group_id\") REFERENCES \"lexicon_groups\" (\"id\")\n)", force: :cascade do |t|
     t.integer "user_id"
     t.integer "collection_id"
     t.string "tagger"
@@ -126,12 +126,12 @@ ActiveRecord::Schema.define(version: 2019_01_22_183233) do
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
-  create_table "upload_batches", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "upload_batches", id: :integer, options: "CREATE TABLE \"upload_batches\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  PRIMARY KEY (\"id\")\n)", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "users", id: :integer, options: "CREATE TABLE \"users\" (\n  \"id\" int NOT NULL AUTO_INCREMENT,\n  \"session_str\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"ip\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"created_at\" datetime NOT NULL,\n  \"updated_at\" datetime NOT NULL,\n  \"email\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"encrypted_password\" varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',\n  \"reset_password_token\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"reset_password_sent_at\" datetime DEFAULT NULL,\n  \"remember_created_at\" datetime DEFAULT NULL,\n  \"sign_in_count\" int NOT NULL DEFAULT '0',\n  \"current_sign_in_at\" datetime DEFAULT NULL,\n  \"last_sign_in_at\" datetime DEFAULT NULL,\n  \"current_sign_in_ip\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"last_sign_in_ip\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  \"super_admin\" tinyint(1) DEFAULT '0',\n  \"name\" varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  PRIMARY KEY (\"id\"),\n  UNIQUE KEY \"index_users_on_email\" (\"email\"),\n  UNIQUE KEY \"index_users_on_reset_password_token\" (\"reset_password_token\"),\n  KEY \"index_users_on_session_str\" (\"session_str\"),\n  KEY \"index_users_on_ip\" (\"ip\")\n)", force: :cascade do |t|
     t.string "session_str"
     t.string "ip"
     t.datetime "created_at", null: false
